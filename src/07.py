@@ -1,6 +1,6 @@
 import aoc
 from collections import deque
-test = True
+test = False
 timer = aoc.executionTime()
 #directions = ((-1,0),(1,0),(0,-1),(0,1),(-1,-1),(1,-1),(-1,1),(1,1))  # with diagonals
 directions = ((-1,0),(1,0),(0,-1),(0,1))
@@ -31,7 +31,7 @@ for p in programs:
 for p in programs:
     if programs[p][2] == []:
         p1 = p
-    print(p, programs[p])
+
 print (f"Part 1: {p1}, {str(timer)}") 
 
 # Part 2
@@ -44,14 +44,32 @@ def getWeight(prog):
         sw += ssw
         programs[s][3] = ssw
     return w + sw
-    
-
 
 w = getWeight(p1)
 print(w)
 
-
+print(programs[p1])
+nums= dict()
+for p in programs[p1][1]:
+    w = programs[p][3]
+    print(p, programs[p])
+    if w in nums:
+        nums[w].append(p)
+    else:
+        nums[w] = [p]
+for w in nums:
+    if len(nums[w]) == 1:
+        weight = w
+    else:
+        refweight = w
+candidate = nums[weight][0]
+cw = programs[candidate][0]
+for x in programs['yruivis'][1]: # Manual hacky solution
+    print(x, programs[x])S
+print (weight, refweight, candidate, cw, (weight- refweight) )
 print (f"Part 2: {p2}, {str(timer)}") 
+
+# 2751 is to high 
 
 
 
