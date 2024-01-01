@@ -75,7 +75,7 @@ def getnextxy(x,y,d, xmax, xmin, ymax, ymin):
         d = nextdirs[d]
         xx = x + d[0]
         yy = y + d[1]
-        ymax -= 1
+        ymin -= 1
     return xx,yy, d, xmax,xmin,ymax, ymin
 
 
@@ -94,6 +94,7 @@ movedir = (1,0)
 
 while True:
     x, y, movedir, xmax, xmin, ymax, ymin = getnextxy(x,y, movedir, xmax, xmin, ymax, ymin)
+    curval = 0
     for d in directions:
         xx = x + d[0]
         yy = y + d[1]
@@ -102,14 +103,15 @@ while True:
         if curval > input:
             p2 = curval
             break
-    values[(xx,yy)] = curval
+    values[(x,y)] = curval
     if p2 != 0:
         break
 
 print (f"Part 2: {p2}, {str(timer)}") 
 
 
-
+#444119 to high
+#438563 to high
 
 
 
