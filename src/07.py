@@ -1,6 +1,6 @@
 import aoc
 from collections import deque
-test = False
+test = True
 timer = aoc.executionTime()
 #directions = ((-1,0),(1,0),(0,-1),(0,1),(-1,-1),(1,-1),(-1,1),(1,1))  # with diagonals
 directions = ((-1,0),(1,0),(0,-1),(0,1))
@@ -35,11 +35,20 @@ for p in programs:
 print (f"Part 1: {p1}, {str(timer)}") 
 
 # Part 2
-pq = deque()
-pq.append(p1)
-while pq:
-    prog = pq.popleft()
-    print (prog, programs[prog][1])
+def getWeight(prog):
+    w = programs[prog][0]
+    supports = programs[prog][1]
+    sw = 0
+    for s in supports:
+        ssw = getWeight(s)
+        sw += ssw
+        programs[s][3] = ssw
+    return w + sw
+    
+
+
+w = getWeight(p1)
+print(w)
 
 
 print (f"Part 2: {p2}, {str(timer)}") 
