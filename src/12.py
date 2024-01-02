@@ -1,6 +1,6 @@
 import aoc
-import sys
-sys.setrecursionlimit(10000)
+
+from collections import deque
 test = False
 timer = aoc.executionTime()
 #directions = ((-1,0),(1,0),(0,-1),(0,1),(-1,-1),(1,-1),(-1,1),(1,1))  # with diagonals
@@ -25,31 +25,36 @@ def addprogram(p, nodes):
         programs[n][1].add(p)
     return
 
-def followtox(p, x):
-    if p == x:
-        linktotarget.add(p)
-        return True
-    if p in linktotarget:
-        return True
-    for pp in programs[p][0]:
-        if x == pp:
-            linktotarget.add(p)
-            return True
-        if followtox(pp, x):
-            return True
-    return False
-
-
-linktotarget = set()
 programs=dict()
+vissited=set()
 # Part 1
 for line in lines:
     pp = line.split(" <-> ")
     addprogram(int(pp[0]),[int(x) for x in pp[1].split(", ")])
 
-for p in programs:
-    followtox(p,0)
-p1 = len(linktotarget)
+groups = 0
+for x in programs:
+    ispart1 = False
+    if x not in vissited:
+        groups+=1
+        q = deque()
+        q.append(x)
+        linktotarget = set()
+
+        while q:
+            c = q.popleft()
+            linktotarget.add(c)
+            vissited.add(c)
+            if c==0:
+                ispart1 = True
+            for cc in programs[c][1]:
+                if cc not in linktotarget:
+                    q.append(cc)
+    if ispart1:
+        p1 = len(linktotarget)
+
+p2 = groups
+
 print (f"Part 1: {p1}, {str(timer)}") 
 
 # Part 2
