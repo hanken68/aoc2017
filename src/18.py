@@ -69,34 +69,34 @@ def excecuteprogram(pnum):
     return True
 
 # Part 1
-# pc = 0
-# while True:
-#     il = program[pc]
-#     instr = il[0]
-#     if instr == "snd":
-#         lastsound = registers[il[1]]
-#     elif instr == "set":
-#         registers[il[1]] = registers[il[2]] if il[2] in registers else il[2]
-#     elif instr == "add":
-#         registers[il[1]] += registers[il[2]] if il[2] in registers else il[2]
-#     elif instr == "mul":
-#         registers[il[1]] *= registers[il[2]] if il[2] in registers else il[2]
-#     elif instr == "mod":
-#         registers[il[1]] = registers[il[1]] % (registers[il[2]] if il[2] in registers else il[2])
-#     elif instr == "rcv":
-#         if registers[il[1]] != 0:
-#             p1 = lastsound
-#             break
-#     elif instr=="jgz":
-#         if registers[il[1]] > 0:
-#             pc += registers[il[2]] if il[2] in registers else il[2]
-#             pc -= 1
-#     pc += 1
+pc = 0
+while True:
+    il = program[pc]
+    instr = il[0]
+    if instr == "snd":
+        lastsound = registers[il[1]]
+    elif instr == "set":
+        registers[il[1]] = registers[il[2]] if il[2] in registers else il[2]
+    elif instr == "add":
+        registers[il[1]] += registers[il[2]] if il[2] in registers else il[2]
+    elif instr == "mul":
+        registers[il[1]] *= registers[il[2]] if il[2] in registers else il[2]
+    elif instr == "mod":
+        registers[il[1]] = registers[il[1]] % (registers[il[2]] if il[2] in registers else il[2])
+    elif instr == "rcv":
+        if registers[il[1]] != 0:
+            p1 = lastsound
+            break
+    elif instr=="jgz":
+        if registers[il[1]] > 0:
+            pc += registers[il[2]] if il[2] in registers else il[2]
+            pc -= 1
+    pc += 1
 
-#     if pc<0 or pc>= len(program):
-#         break
+    if pc<0 or pc>= len(program):
+        break
 
-# print (f"Part 1: {p1}, {str(timer)}") 
+print (f"Part 1: {p1}, {str(timer)}") 
 
 # Part 2
 pc = [0,0]
@@ -107,11 +107,11 @@ while sum(running)>0:
             running[p] = excecuteprogram(p)
 
 p2 = sendcounter[1]
-
+print (sendcounter)
 print (f"Part 2: {p2}, {str(timer)}") 
 
 
-# 14986 is too high
+# 14985 is too high
 
 
 
