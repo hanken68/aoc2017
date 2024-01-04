@@ -37,12 +37,13 @@ for line in lines:
     program.append(instr)
 
 def excecuteprogram(pnum):
-    buf = buffer[pnum]
+    rbuf = buffer[pnum]
+    sbuf = buffer[0 if pnum == 1 else 1]
     il = program[pc[pnum]]
     instr = il[0]
     registers = regp2[pnum]
     if instr == "snd":
-        buf.append(registers[il[1]] if il[1] in registers else il[1])
+        sbuf.append(registers[il[1]] if il[1] in registers else il[1])
         sendcounter[pnum] += 1
     elif instr == "set":
         registers[il[1]] = registers[il[2]] if il[2] in registers else il[2]
@@ -53,11 +54,12 @@ def excecuteprogram(pnum):
     elif instr == "mod":
         registers[il[1]] = registers[il[1]] % (registers[il[2]] if il[2] in registers else il[2])
     elif instr == "rcv":
-        if buf:
-            registers[il[1]] = buf.popleft()
+        if rbuf:
+            registers[il[1]] = rbuf.popleft()
+            rcvcounter[pnum] = 0 # Reset counter
         else:
             rcvcounter[pnum] += 1
-            return rcvcounter[pnum] <= 4
+            return True
     elif instr=="jgz":
         if (registers[il[1]] if il[1] in registers else il[1]) > 0:
             pc[pnum] += registers[il[2]] if il[2] in registers else il[2]
@@ -101,17 +103,18 @@ print (f"Part 1: {p1}, {str(timer)}")
 # Part 2
 pc = [0,0]
 running = [True, True]
+regp2[0]['p'] = 0
+regp2[1]['p'] = 1
 while sum(running)>0:
     for p in [0,1]:
         if running[p]:
             running[p] = excecuteprogram(p)
+    if rcvcounter[0]> 4 and rcvcounter[1]>4:
+        break
 
 p2 = sendcounter[1]
-print (sendcounter)
 print (f"Part 2: {p2}, {str(timer)}") 
 
-
-# 14985 is too high
 
 
 
