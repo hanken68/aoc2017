@@ -1,5 +1,5 @@
 import aoc
-test = True
+test = False
 timer = aoc.executionTime()
 #directions = ((-1,0),(1,0),(0,-1),(0,1),(-1,-1),(1,-1),(-1,1),(1,1))  # with diagonals
 directions = ((-1,0),(1,0),(0,-1),(0,1))
@@ -16,9 +16,9 @@ r = 0
 d = (1,0)
 # Part 1
 text = ""
+stepcount = 0
 while True:
     l = grid[r][c]
-    print(r,c,l,d, text)
     if l == "+":
         for dr, dc in directions:
             rr = r + dr
@@ -28,17 +28,18 @@ while True:
             if grid[rr][cc] != " ":
                 d=(dr, dc)
                 break
+    elif l == " ":
+        break
     elif not(l in "|-"):
         text += l
-    elif l== " ":
-        break
     r += d[0]
     c += d[1]
+    stepcount += 1
 
 print (f"Part 1: {text}, {str(timer)}") 
 
 # Part 2
-
+p2 = stepcount
 print (f"Part 2: {p2}, {str(timer)}") 
 
 
