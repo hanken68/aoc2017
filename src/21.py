@@ -1,6 +1,6 @@
 import aoc
 import numpy
-test = True
+test = False
 timer = aoc.executionTime()
 #directions = ((-1,0),(1,0),(0,-1),(0,1),(-1,-1),(1,-1),(-1,1),(1,1))  # with diagonals
 directions = ((-1,0),(1,0),(0,-1),(0,1))
@@ -29,11 +29,12 @@ def generatemapping(f):
     if out != f:
         mapping[tuple(out)]= tuple(f)
     if conversions > 0:
-        m = numpy.array(f)
+        m = f
         for n in range(3): # rotate 3 times
-            numpy.transpose(m)
-            reversed(m)
-            mapping[tuple(m)] = tuple(f)
+            m = list(zip(*m))
+            m = list(["".join(l[::-1]) for l in m])
+            t = tuple(m)
+            mapping[t] = tuple(f)
     return
 # Part 1
 er = dict()
@@ -44,6 +45,8 @@ for line in lines:
     t = lp[1].split("/")
     er[tuple(f)] = tuple(t)
     generatemapping(f)
+for m in mapping:
+    print(m, mapping[m])
 
 grid = [".#.","..#", "###"]
 
@@ -52,8 +55,9 @@ for n in range(2 if test else 5):
     newgrid = []
     R = C = len(grid)
     s = 2 if R%2 == 0 else 3
+    rc = 0
     for r in range(0, R, s):
-        for rr in range(s):
+        for rr in range(s+1):
             newgrid.append("")
         for c in range(0,C,s):
             arr = []
@@ -64,12 +68,16 @@ for n in range(2 if test else 5):
                 t = er[c]
             else:
                 t = er[mapping[c]]
-            for rr in t:
-                newgrid[r+rr] += t[rr]
+            for rr, newrow in enumerate(t):
+                newgrid[rc+rr] += newrow
+        rc += (s+1)
     grid = newgrid.copy()
 
+nums = 0
+for x in grid:
+    nums += x.count("#")
 
-
+p1 = nums
 print (f"Part 1: {p1}, {str(timer)}") 
 
 
