@@ -12,7 +12,13 @@ lines = open(inFile, "r").read().splitlines()
 R=len(lines)
 C=len(lines[0])
 def generatemapping(f):
-    conversions = 0
+    m = f
+    for n in range(3): # rotate 3 times
+        m = list(zip(*m))
+        m = list(["".join(l[::-1]) for l in m])
+        t = tuple(m)
+        if t != f:
+            mapping[t] = tuple(f)
     out = []
     # flip vertically
     for l in f:
@@ -20,20 +26,12 @@ def generatemapping(f):
     t = tuple(out)
     if out != f:
         mapping[t]= tuple(f)
-        conversions += 1
-    # flip horizontally
-    out = []
-    for l in reversed(f):
-        out.append(l)
-        conversions += 1
-    if out != f:
-        mapping[tuple(out)]= tuple(f)
-    if conversions > 0:
-        m = f
-        for n in range(3): # rotate 3 times
-            m = list(zip(*m))
-            m = list(["".join(l[::-1]) for l in m])
-            t = tuple(m)
+    m = out
+    for n in range(3): # rotate 3 times
+        m = list(zip(*m))
+        m = list(["".join(l[::-1]) for l in m])
+        t = tuple(m)
+        if t != f:
             mapping[t] = tuple(f)
     return
 # Part 1
@@ -45,12 +43,10 @@ for line in lines:
     t = lp[1].split("/")
     er[tuple(f)] = tuple(t)
     generatemapping(f)
-for m in mapping:
-    print(m, mapping[m])
 
 grid = [".#.","..#", "###"]
 
-for n in range(2 if test else 5):
+for numiter in range(2 if test else 18):
     #expand grid
     newgrid = []
     R = C = len(grid)
@@ -72,15 +68,14 @@ for n in range(2 if test else 5):
                 newgrid[rc+rr] += newrow
         rc += (s+1)
     grid = newgrid.copy()
+    if numiter == 4:
+        for x in grid:
+            p1 += x.count("#")
+        print (f"Part 1: {p1}, {str(timer)}") 
+    
 
-nums = 0
 for x in grid:
-    nums += x.count("#")
-
-p1 = nums
-print (f"Part 1: {p1}, {str(timer)}") 
-
-
+    p2 += x.count("#")
 
 # Part 2
 
