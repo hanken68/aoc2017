@@ -61,7 +61,7 @@ pc = 0
 registers['a'] = 1
 while True:
     il = program[pc]
-    if pc in (31,24,23):
+    if pc in (20,31,24,23):
         print(pc, registers)
     instr = il[0]
     if instr == "set":
@@ -82,5 +82,10 @@ print (f"Part 2: {p2}, {str(timer)}")
 
 
 
-# 997 is too high
+# 983 is too high
+# 964 is wrong
+# 966 is wrong
+# 483 is wrong
+# 968 is wrong
+# 949 is wrong
 
