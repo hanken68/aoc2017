@@ -12,33 +12,47 @@ lines = open(inFile, "r").read().splitlines()
 R=len(lines)
 C=len(lines[0])
 
+compdict = dict()
 components = dict()
-c2 = set()
-# Part 1
-for line in lines:
-    comp = [int(x) for x in line.split("/")]
-    if comp[0] in components:
-        components[comp[0]].append(comp[1])
-    else: 
-        components[comp[0]] =[comp[1]]
-    c2.add(tuple(comp))
 
-print(components)
-print (len(c2), len(components))
+
+for cnum, line in enumerate(lines):
+    comp = [int(x) for x in line.split("/")]
+    components[cnum] = tuple(comp)
+    if comp[0] in compdict:
+        compdict[comp[0]].append((cnum, comp[1]))
+    else: 
+        compdict[comp[0]] =[(cnum, comp[1])]
+    if comp[1] in compdict:
+        compdict[comp[1]].append((cnum, comp[0]))
+    else: 
+        compdict[comp[1]] =[(cnum, comp[0])]
+
+
+# Part 1
 q = deque()
-q.append((0,set()))
-used = set()
+q.append((0,0,set())) # node, sum, setused
+p1 = 0
+longest = 0
+p2 = 0
 while q:
-    c, u = q.pop()
-    for nc in components[c]:
-        q.append(nc,)
-    
-    
+    c, s, u = q.pop()
+    p1 = max(p1, s)
+    if len(u)>longest:
+        longest = len(u)
+        p2 = s
+    elif len(u) == longest:
+        p2 = max(p2,s)
+    if c in compdict:
+        for comp, nc in compdict[c]:
+            if comp not in u:
+                u1 = u.copy()
+                u1.add((comp))
+                q.append((nc, s+c+nc, u1))
 
 print (f"Part 1: {p1}, {str(timer)}") 
 
 # Part 2
-
 print (f"Part 2: {p2}, {str(timer)}") 
 
 
