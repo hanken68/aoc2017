@@ -1,5 +1,5 @@
 import aoc
-from collections import deque
+import math
 test = False
 timer = aoc.executionTime()
 #directions = ((-1,0),(1,0),(0,-1),(0,1),(-1,-1),(1,-1),(-1,1),(1,1))  # with diagonals
@@ -11,6 +11,18 @@ p1 = p2 = 0
 lines = open(inFile, "r").read().splitlines()
 R=len(lines)
 C=len(lines[0])
+
+def primeCheck(x):
+    sta = 1
+    for i in range(2,int(math.sqrt(x))+1): # range[2,sqrt(num)]
+        if(x%i==0):
+            sta=0
+            break
+        else:
+            continue
+    return sta
+
+
 
 program = []
 registers = dict()
@@ -56,6 +68,7 @@ p1 = mulcounter
 print (f"Part 1: {p1}, {str(timer)}") 
 
 # Part 2
+<<<<<<< HEAD
 registers = backup
 pc = 0
 registers['a'] = 1
@@ -89,3 +102,14 @@ print (f"Part 2: {p2}, {str(timer)}")
 # 968 is wrong
 # 949 is wrong
 
+=======
+# Analyced code and found out that it was a loop that incremented h if b was not a prime number
+b = 106500
+c = 123500
+h = 0
+for x in range(b, c+1, 17):
+    if not(primeCheck(x)):
+        h += 1
+p2 = h
+print (f"Part 2: {p2}, {str(timer)}") 
+>>>>>>> e1ee929 (Year 2017 completed)
